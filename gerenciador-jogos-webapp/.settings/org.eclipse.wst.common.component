@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="gerenciador-jogos-webapp">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="gerenciador-jogos-webapp"/>
+        <property name="java-output-path" value="/gerenciador-jogos-webapp/build/classes"/>
+    </wb-module>
+</project-modules>
