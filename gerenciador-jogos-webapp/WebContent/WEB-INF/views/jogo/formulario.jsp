@@ -7,7 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2>Olá Mundo Spring MVC</h2>
-<a href="${pageContext.request.contextPath}/formularioJogo">Cadastrar Jogo</a>
+<form action="cadastrarJogo" method="post">
+<input type="text" name="nome" required>
+<input type="submit" value="Salvar">
+</form>
 </body>
 </html>
