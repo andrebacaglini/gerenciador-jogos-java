@@ -2,12 +2,19 @@ package br.com.gerenciador.jogos.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.gerenciador.jogos.business.IJogosBusiness;
 import br.com.gerenciador.jogos.domain.entities.Jogo;
+import br.com.gerenciador.jogos.validation.JogoValidator;
 
 @Controller
 public class OlaMundoController {
@@ -22,6 +29,11 @@ public class OlaMundoController {
 	@Autowired
 	private IJogosBusiness _jogoBusiness;
 
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new JogoValidator());
+	}
+
 	@RequestMapping
 	public String index() {
 		return "olamundo";
@@ -31,11 +43,14 @@ public class OlaMundoController {
 	// à action minhaAcao
 	@RequestMapping("/olamundo")
 	public String minhaAcao() {
-		List<Jogo> listaJogos = _jogoBusiness.listaJogos();
-		for (Jogo j : listaJogos) {
-			System.out.println(j.getNome());
-		}
 		return "olamundo";
+	}
+
+	@RequestMapping("/listarJogos")
+	public String listarJogos(Model model) {
+		List<Jogo> listaJogos = _jogoBusiness.listaJogos();
+		model.addAttribute("listaJogos", listaJogos);
+		return "jogo/listar";
 	}
 
 	@RequestMapping("/formularioJogo")
@@ -45,12 +60,15 @@ public class OlaMundoController {
 	}
 
 	@RequestMapping("/cadastrarJogo")
-	public String cadastrarJogo(Jogo jogo) {
+	public String cadastrarJogo(@Valid Jogo jogo, BindingResult result) {
 
-		boolean foiSalvo = _jogoBusiness.cadastrarJogo(jogo);
-		System.out.println(String.format("O jogo %s foi salvo? %s", jogo.getNome(), foiSalvo));
-
-		return "olamundo";
+		if (result.hasFieldErrors("nome")) {
+			return "jogo/formulario";
+		} else {
+			boolean foiSalvo = _jogoBusiness.cadastrarJogo(jogo);
+			System.out.println(String.format("O jogo %s foi salvo? %s", jogo.getNome(), foiSalvo));
+		}
+		return "redirect:listarJogos";
 	}
 
 }

@@ -12,6 +12,11 @@
 	<context:component-scan base-package="br.com.gerenciador.jogos" />
 	<mvc:annotation-driven />
 
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/message" />
+	</bean>
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />

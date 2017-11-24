@@ -1,8 +1,12 @@
 package br.com.gerenciador.jogos.domain.entities;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Jogo {
 
 	private int id;
+	
+	@NotEmpty	
 	private String nome;
 	
 	
